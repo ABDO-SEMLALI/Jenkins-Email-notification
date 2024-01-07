@@ -29,10 +29,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        always {
-            // Cleanup or post-build steps go here
-        }
-    }
 }
