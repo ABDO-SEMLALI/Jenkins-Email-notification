@@ -35,10 +35,9 @@ pipeline {
             steps {
                 script {
                     def buildStatus = currentBuild.result ?: 'UNKNOWN'
-                    def subject = "Build Status: ${buildStatus}"
-                    def body = EMAIL_HTML_SCRIPT.generateEmailBody(buildStatus)
-                    
-                    NOTIFICATION_MANAGER_SCRIPT.sendNotification(NOTIFICATION_EMAIL, subject, body)
+                    def emailBody = env.EMAIL_HTML_SCRIPT.generateEmailBody(buildStatus)
+
+                    env.NOTIFICATION_MANAGER_SCRIPT.sendNotification(env.NOTIFICATION_EMAIL, "Build Status: ${buildStatus}", emailBody)
                 }
             }
         }
