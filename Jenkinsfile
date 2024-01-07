@@ -2,10 +2,25 @@ pipeline {
     agent any
 
     environment {
-        NOTIFICATION_MANAGER_SCRIPT = load 'notificationManager.groovy', 'charset': 'UTF-8'
-        EMAIL_HTML_SCRIPT = load 'email.html.groovy', 'charset': 'UTF-8'
         NOTIFICATION_EMAIL = 'abdelkarimsemlali67@gmail.com'
     }
+
+    stages {
+        stage('Load Scripts') {
+            steps {
+                script {
+                    // Load notificationManager.groovy
+                    def notificationManagerScript = evaluate(new File('notificationManager.groovy'))
+
+                    // Load email.html.groovy
+                    def emailHtmlScript = evaluate(new File('email.html.groovy'))
+
+                    // Set as environment variables
+                    env.NOTIFICATION_MANAGER_SCRIPT = notificationManagerScript
+                    env.EMAIL_HTML_SCRIPT = emailHtmlScript
+                }
+            }
+        }
 
     stages {
         stage('Build') {
