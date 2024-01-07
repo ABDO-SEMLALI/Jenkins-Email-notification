@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        NOTIFICATION_MANAGER_SCRIPT = load 'notificationManager.groovy'
-        EMAIL_HTML_SCRIPT = load 'email.html.groovy'
+        NOTIFICATION_MANAGER_SCRIPT = load 'notificationManager.groovy', 'UTF-8'
+        EMAIL_HTML_SCRIPT = load 'email.html.groovy', 'UTF-8'
         NOTIFICATION_EMAIL = 'abdelkarimsemlali67@gmail.com'
     }
 
