@@ -4,7 +4,7 @@ pipeline {
     environment {
         NOTIFICATION_MANAGER_SCRIPT = load 'notificationManager.groovy'
         EMAIL_HTML_SCRIPT = load 'email.html.groovy'
-        NOTIFICATION_EMAIL = 'your-email@example.com'
+        NOTIFICATION_EMAIL = 'abdelkarimsemlali67@gmail.com'
     }
 
     stages {
