@@ -10,10 +10,10 @@ pipeline {
             steps {
                 script {
                     // Load notificationManager.groovy
-                    def notificationManagerScript = evaluate(new File('notificationManager.groovy'))
+                    def notificationManagerScript = readFile('notificationManager.groovy')
 
                     // Load email.html.groovy
-                    def emailHtmlScript = evaluate(new File('email.html.groovy'))
+                    def emailHtmlScript = readFile('email.html.groovy')
 
                     // Set as environment variables
                     env.NOTIFICATION_MANAGER_SCRIPT = notificationManagerScript
@@ -21,7 +21,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Build') {
             steps {
                 script {
