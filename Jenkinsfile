@@ -19,37 +19,32 @@ pipeline {
     post {
         success {
             script {
-                // Load HTML Groovy script template
-                def emailHtmlTemplate = readFile('groovy-html.template')
+                // Load workflowlibs.manager Groovy script
+                def rootDir = pwd()
+                def workflowLibsManager = load "${rootDir}@script/workflowlibs.manager.groovy"
 
-                // Set subject and body
+                // Parameters for notifyEmail function
                 def buildStatus = currentBuild.result ?: 'UNKNOWN'
-                def subject = "Build Status: ${buildStatus}"
-                def body = emailHtmlTemplate.replaceAll('\${BUILD_STATUS}', buildStatus)
+                def emailRecipients = [env.NOTIFICATION_EMAIL]
 
-                // Send email notification
-                sendEmailNotification(subject, body)
+                // Call the notifyEmail function from the loaded Groovy file
+                workflowLibsManager.notifyEmail(buildStatus, emailRecipients)
             }
         }
 
         failure {
             script {
-                // Load Text Groovy script template
-                def emailTextTemplate = readFile('groovy-text.template')
+                // Load workflowlibs.manager Groovy script
+                def rootDir = pwd()
+                def workflowLibsManager = load "${rootDir}@script/workflowlibs.manager.groovy"
 
-                // Set subject and body
+                // Parameters for notifyEmail function
                 def buildStatus = currentBuild.result ?: 'UNKNOWN'
-                def subject = "Build Status: ${buildStatus}"
-                def body = emailTextTemplate.replaceAll('\${BUILD_STATUS}', buildStatus)
+                def emailRecipients = [env.NOTIFICATION_EMAIL]
 
-                // Send email notification
-                sendEmailNotification(subject, body)
+                // Call the notifyEmail function from the loaded Groovy file
+                workflowLibsManager.notifyEmail(buildStatus, emailRecipients)
             }
         }
     }
-
-}
-
-def sendEmailNotification(subject, body) {
-    emailext body: body, subject: subject, to: env.NOTIFICATION_EMAIL
 }
