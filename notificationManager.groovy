@@ -8,7 +8,8 @@ import java.nio.charset.StandardCharsets
  */
 def emailTemplate(params) {
     def fileName = "email.html.groovy"
-    def fileContents = libraryResource(fileName).getText(StandardCharsets.UTF_8)
+    def fileContentsBytes = libraryResource(fileName).read()
+    def fileContents = new String(fileContentsBytes, StandardCharsets.UTF_8)
 
     // Instantiate StreamingTemplateEngine
     def engine = new StreamingTemplateEngine()
