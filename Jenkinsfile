@@ -20,7 +20,7 @@ pipeline {
         success {
             script {
                 // Load HTML Groovy script template
-                def emailHtmlTemplate = readFile('groovy-html.template')
+                def emailHtmlTemplate = load "notificationManager.groovy"
 
                 // Set subject and body
                 def buildStatus = currentBuild.result ?: 'UNKNOWN'
