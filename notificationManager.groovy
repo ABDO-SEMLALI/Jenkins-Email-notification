@@ -8,20 +8,21 @@ import groovy.text.StreamingTemplateEngine
  * This method returns a string with the template filled with groovy variables
  */
 def emailTemplate(params) {
-    def fileName = "email.html.groovy"
-    def fileContentsBytes = libraryResource(fileName).read()
-    def fileContents = new String(fileContentsBytes, "UTF-8")
+
+    def fileName = "build/email.html.groovy"
+    def fileContents = libraryResource(fileName)
     def engine = new StreamingTemplateEngine()
 
     return engine.createTemplate(fileContents).make(params).toString()
 }
-
 
 /**
  * This method send an email generated with data from Jenkins
  * @param buildStatus String with job result
  * @param emailRecipients Array with emails: emailRecipients = []
  */
+
+
 def notifyEmail(buildStatus, emailRecipients) {
 
     try {
@@ -54,4 +55,4 @@ def notifyEmail(buildStatus, emailRecipients) {
         println "ERROR SENDING EMAIL ${e}"
     }
 }
-return this
+return this;
