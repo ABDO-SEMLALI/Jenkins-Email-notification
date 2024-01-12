@@ -1,19 +1,17 @@
 package workflowlibs.manager;
 
 import groovy.text.StreamingTemplateEngine
+import java.nio.charset.StandardCharsets
 
 /**
  * This method returns a string with the template filled with Groovy variables
  */
 def emailTemplate(params) {
     def fileName = "email.html.groovy"
-    
+    def fileContents = libraryResource(fileName).getText(StandardCharsets.UTF_8)
+
     // Instantiate StreamingTemplateEngine
     def engine = new StreamingTemplateEngine()
-
-    // Use Java's Files class to read the file with UTF-8 encoding
-    def fileContentsBytes = libraryResource(fileName).read()
-    def fileContents = new String(fileContentsBytes, "UTF-8")
 
     return engine.createTemplate(fileContents).make(params).toString()
 }
