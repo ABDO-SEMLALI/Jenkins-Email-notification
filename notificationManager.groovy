@@ -8,13 +8,13 @@ import groovy.text.StreamingTemplateEngine
  * This method returns a string with the template filled with groovy variables
  */
 def emailTemplate(params) {
-
     def fileName = "email.html.groovy"
-    def fileContents = libraryResource(fileName)
+    def fileContents = libraryResource(fileName).getText("UTF-8")
     def engine = new StreamingTemplateEngine()
 
     return engine.createTemplate(fileContents).make(params).toString()
 }
+
 
 /**
  * This method send an email generated with data from Jenkins

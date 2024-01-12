@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     def workflowLibsManager = load "notificationManager.groovy"
-                    workflowLibsManager.notifyEmail('SUCCESSFUL', NOTIFICATION_EMAIL)
+                    workflowLibsManager.notifyEmail('SUCCESSFUL', 'abdelkarimsemlali67@gmail.com')
                 }
             }
         }
