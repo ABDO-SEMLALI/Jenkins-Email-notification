@@ -13,16 +13,16 @@ pipeline {
                 }
             }
         }
-        stage('Build') {
+        stage('Load and Execute Groovy Script') {
             steps {
                 script {
-                    // Your build steps go here
-                    echo 'Building...'
+                    def workflowLibsManager = load "notificationManager.groovy"
+                    workflowLibsManager.notifyEmail('SUCCESSFUL', NOTIFICATION_EMAIL)
                 }
             }
         }
     }
-
+/*
     post {
         success {
             script {
@@ -38,4 +38,5 @@ pipeline {
             }
         }
     }
+*/
 }

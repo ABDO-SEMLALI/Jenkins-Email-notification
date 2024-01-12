@@ -1,24 +1,39 @@
-package workflowlibs.manager
+#!groovy
+
+package workflowlibs.manager;
 
 import groovy.text.StreamingTemplateEngine
-import java.nio.charset.StandardCharsets
 
-final SUCCESS_ICON = "✅"
-final FAILURE_ICON = "❌"
-
+/**
+ * This method returns a string with the template filled with groovy variables
+ */
 def emailTemplate(params) {
+
     def fileName = "email.html.groovy"
-    def fileContents = libraryResource(fileName).getText(StandardCharsets.UTF_8)
+    def fileContents = libraryResource(fileName)
     def engine = new StreamingTemplateEngine()
 
     return engine.createTemplate(fileContents).make(params).toString()
 }
 
-def sendNotification(buildStatus, emailRecipients) {
+/**
+ * This method send an email generated with data from Jenkins
+ * @param buildStatus String with job result
+ * @param emailRecipients Array with emails: emailRecipients = []
+ */
+def notifyEmail(buildStatus, emailRecipients) {
+
     try {
-        def icon = buildStatus == "SUCCESS" ? SUCCESS_ICON : FAILURE_ICON
-        def statusSuccess = buildStatus == "SUCCESS"
-        def hasArtifacts = statusSuccess // You may need to adjust this based on your criteria
+
+        def icon = "✅"
+        def statusSuccess = true
+        def hasArtifacts = true
+
+        if(buildStatus != "SUCCESSFUL") {
+            icon = "❌"
+            statusSuccess = false
+            hasArtifacts = false
+        }
 
         def body = emailTemplate([
             "jenkinsText"   :   env.JOB_NAME,
@@ -26,14 +41,16 @@ def sendNotification(buildStatus, emailRecipients) {
             "statusSuccess" :   statusSuccess,
             "hasArtifacts"  :   hasArtifacts,
             "downloadUrl"   :   "www.downloadurl.com"
-        ])
+        ]);
 
-        mail(to: emailRecipients.join(","),
+        mail (to: emailRecipients.join(","),
             subject: "${icon} [ ${env.JOB_NAME} ] [${env.BUILD_NUMBER}] - ${buildStatus} ",
             body: body,
             mimeType: 'text/html'
-        )
-    } catch (e) {
+        );
+
+    } catch (e){
         println "ERROR SENDING EMAIL ${e}"
     }
 }
+return this
