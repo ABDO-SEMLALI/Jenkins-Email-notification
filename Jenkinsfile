@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        NOTIFICATION_EMAIL = 'abdelkarimsemlali67@gmail.com'
-    }
-
     stages {
         stage('Checkout') {
             steps {
