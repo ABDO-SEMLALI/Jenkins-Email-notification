@@ -27,26 +27,14 @@ pipeline {
         success {
             script {
                 def workflowLibsManager = load "notificationManager.groovy"
-                // Parameters for notifyEmail function
-                def buildStatus = currentBuild.result ?: 'UNKNOWN'
-                def emailRecipients = [env.NOTIFICATION_EMAIL]
-
-                // Call the notifyEmail function from the loaded Groovy file
-                workflowLibsManager.notifyEmail(buildStatus, emailRecipients)
+                workflowLibsManager.sendNotification(currentBuild.result ?: 'UNKNOWN', [env.NOTIFICATION_EMAIL])
             }
         }
 
         failure {
             script {
-                // Load workflowlibs.manager Groovy script
                 def workflowLibsManager = load "notificationManager.groovy"
-
-                // Parameters for notifyEmail function
-                def buildStatus = currentBuild.result ?: 'UNKNOWN'
-                def emailRecipients = [env.NOTIFICATION_EMAIL]
-
-                // Call the notifyEmail function from the loaded Groovy file
-                workflowLibsManager.notifyEmail(buildStatus, emailRecipients)
+                workflowLibsManager.sendNotification(currentBuild.result ?: 'UNKNOWN', [env.NOTIFICATION_EMAIL])
             }
         }
     }
