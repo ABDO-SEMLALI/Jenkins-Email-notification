@@ -10,8 +10,8 @@ import groovy.text.StreamingTemplateEngine
 def emailTemplate(params) {
 
     def fileName = "email.html.groovy"
-    def fileContents = libraryResource(fileName)
-    def engine = new StreamingTemplateEngine()
+    def fileContentsBytes = libraryResource(fileName).read()
+    def fileContents = new String(fileContentsBytes, "UTF-8")
 
     return engine.createTemplate(fileContents).make(params).toString()
 }
